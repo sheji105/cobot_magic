@@ -290,7 +290,7 @@ sudo apt install ros-$ROS_DISTRO-sensor-msgs ros-$ROS_DISTRO-nav-msgs ros-$ROS_D
 cd collect_data
 
 ## 2.2 安装requiredments.txt
-pip install -r requiredments.txt
+pip install -r requirements.txt
 ~~~
 
 ## 3.2 运行
