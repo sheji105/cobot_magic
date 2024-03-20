@@ -21,4 +21,4 @@ echo "udevadm info -a -n /dev/ttyACM* | grep serial"
 echo
 echo "sudo vim /etc/udev/rules.d/arx_can.rules"
 
-echo "ssh-keygen -f "/home/lin/.ssh/known_hosts" -R "192.168.1.121""
+echo "sudo udevadm control --reload-rules && sudo udevadm trigger"
