@@ -123,7 +123,7 @@ SUBSYSTEM=="tty", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="117e", ATTRS{seria
 SUBSYSTEM=="tty", ATTRS{idVendor}=="16d0", ATTRS{idProduct}=="117e", ATTRS{serial}=="208E386A4D4D", SYMLINK+="canable3"
 
 # 4 拷贝arx_can.rules进/etc/udev/rules.d/
-cp remote_control/doc/arx_can.rules /etc/udev/rules.d/
+sudo cp remote_control/doc/arx_can.rules /etc/udev/rules.d/
 
 # 5 更新rule
 sudo udevadm control --reload-rules && sudo udevadm trigger
