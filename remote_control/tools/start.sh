@@ -1,7 +1,7 @@
 #!/bin/bash
 source ~/.bashrc
 workspace=$(pwd)
-password=123456
+password=agx
 # workdir=$(cd $(dirname $0); pwd)
 
 # 1 生效can口
