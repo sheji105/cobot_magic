@@ -85,7 +85,7 @@ rqt_image_view
 ~~~
 
 
-## 2.2 查看机械臂的serial number
+## 2.2 绑定机械臂的serial number
 
 1. 绑定serial number
 
