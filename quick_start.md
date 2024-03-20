@@ -50,7 +50,7 @@ echo "source $(pwd)/devel/setup.bash" >> ~/.bashrc
 
 # 2 绑定serial number
 
-# 2.1 绑定相机的serial number
+## 2.1 绑定相机的serial number
 
 1. 绑定serial number
 ~~~python
