@@ -1,2 +1,0 @@
-arm_control
--DCATKIN_DEVEL_PREFIX=/home/lin/cobot_magic/remote_control01/master1/devel -DCMAKE_INSTALL_PREFIX=/home/lin/cobot_magic/remote_control01/master1/install -G Unix Makefiles
