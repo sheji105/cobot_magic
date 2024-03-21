@@ -2,7 +2,7 @@
 source ~/.bashrc
 # workspace=${HOME}/follow
 workspace=$(pwd)
-password=123456
+# password=123456
 # current_path=$(pwd) 
 # echo $current_path
 # workdir=$(cd $(dirname $0); pwd)
