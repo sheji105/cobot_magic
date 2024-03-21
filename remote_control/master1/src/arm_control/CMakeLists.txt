@@ -136,6 +136,11 @@ include
   ${roscpp_INCLUDE_DIRS}
 )
 
+# add_library(arx_s SHARED src/App/arx_s.cpp)
+# target_link_libraries(arx_s)
+
+
+
 ## Declare a C++ library
 
 add_library(arm_control
@@ -146,6 +151,7 @@ add_library(arm_control
    src/Hardware/motor.cpp
    src/Hardware/teleop.cpp
    src/utility.cpp
+  #  src/App/arx_s.cpp
 
   #  src/App/keyboard.cpp
   #  src/App/solve.cpp
@@ -233,7 +239,9 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86_64)|(AMD64)|(^i686)")
         ${CMAKE_CURRENT_SOURCE_DIR}/src/App/libsolve.so 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/libcan/libcan.a 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/App/libkey.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/App/libarx_s.so
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/libcana.so 
+
 
         kdl_parser
     )

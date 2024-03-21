@@ -16,12 +16,14 @@
 #include <fcntl.h>
 #include <thread>
 #include <atomic>
+#include "App/arx_s.h"
 #include "arm_control/JointControl.h"
 #include "arm_control/JointInformation.h"
 #include "arm_control/PosCmd.h"
 
 int CONTROL_MODE=0; // 0 arx5 rc ，1 5a rc ，2 arx5 ros ，3 5a ros
 command cmd;
+can CAN_Handlej;
 
 int main(int argc, char **argv)
 {
@@ -30,6 +32,8 @@ int main(int argc, char **argv)
     Teleop_Use()->teleop_init(node);
 
     arx_arm ARX_ARM((int) CONTROL_MODE);
+
+    ros::Publisher pub_joint01 = node.advertise<sensor_msgs::JointState>("/master/joint_right", 10);
 
     ros::Subscriber sub_information = node.subscribe<arm_control::JointInformation>("/joint_information", 10, 
                                   [&ARX_ARM](const arm_control::JointInformation::ConstPtr& msg) {
@@ -41,18 +45,13 @@ int main(int argc, char **argv)
                                       ARX_ARM.ros_control_cur_t[5] = msg->joint_cur[5];
                                       ARX_ARM.ros_control_cur_t[6] = msg->joint_cur[6];
                                       ARX_ARM.ros_control_pos_t[6] = msg->joint_pos[6];
-                                      
                                   });
-
-    ros::Publisher pub_joint01 = node.advertise<sensor_msgs::JointState>("/master/joint_right", 10);
-                                
     ros::Publisher pub_joint = node.advertise<arm_control::JointControl>("/joint_control", 10);
     ros::Publisher pub_pos = node.advertise<arm_control::PosCmd>("/master1_pos_back", 10);
     
     arx5_keyboard ARX_KEYBOARD;
 
     ros::Rate loop_rate(200);
-    can CAN_Handlej;
 
     std::thread keyThread(&arx5_keyboard::detectKeyPress, &ARX_KEYBOARD);
     sleep(1);
@@ -102,7 +101,8 @@ int main(int argc, char **argv)
 
             pub_pos.publish(msg_pos_back);
         
-          // 发布sensor_msgs::JointState
+
+            // 发布sensor_msgs::JointState
             sensor_msgs::JointState msg_joint01;
             msg_joint01.header.stamp = ros::Time::now();
             // msg_joint01.header.frame_id = "map";
@@ -122,9 +122,17 @@ int main(int argc, char **argv)
             pub_joint01.publish(msg_joint01);
 
 
+
         ros::spinOnce();
         loop_rate.sleep();
-        
+
+        if (arx_flag)
+        {
+            break;
+        }
+
     }
+    arx_2(CAN_Handlej);
+
     return 0;
 }

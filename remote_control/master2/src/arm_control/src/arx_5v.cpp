@@ -16,12 +16,14 @@
 #include <fcntl.h>
 #include <thread>
 #include <atomic>
+#include "App/arx_s.h"
 #include "arm_control/JointControl.h"
 #include "arm_control/JointInformation.h"
 #include "arm_control/PosCmd.h"
 
 int CONTROL_MODE=0; // 0 arx5 rc ，1 5a rc ，2 arx5 ros ，3 5a ros
 command cmd;
+can CAN_Handlej;
 
 int main(int argc, char **argv)
 {
@@ -31,9 +33,7 @@ int main(int argc, char **argv)
 
     arx_arm ARX_ARM((int) CONTROL_MODE);
 
-    // 发布
     ros::Publisher pub_joint01 = node.advertise<sensor_msgs::JointState>("/master/joint_left", 10);
-
 
     ros::Subscriber sub_information = node.subscribe<arm_control::JointInformation>("/joint_information2", 10, 
                                   [&ARX_ARM](const arm_control::JointInformation::ConstPtr& msg) {
@@ -52,7 +52,6 @@ int main(int argc, char **argv)
     arx5_keyboard ARX_KEYBOARD;
 
     ros::Rate loop_rate(200);
-    can CAN_Handlej;
 
     std::thread keyThread(&arx5_keyboard::detectKeyPress, &ARX_KEYBOARD);
     sleep(1);
@@ -102,7 +101,7 @@ int main(int argc, char **argv)
 
             pub_pos.publish(msg_pos_back);
         
-            // 发布姿态
+        // 发布姿态
             sensor_msgs::JointState msg_joint01;
             msg_joint01.header.stamp = ros::Time::now();
             // msg_joint01.header.frame_id = "map";
@@ -123,10 +122,15 @@ int main(int argc, char **argv)
             pub_joint01.publish(msg_joint01);
 
 
-
         ros::spinOnce();
         loop_rate.sleep();
-        
+   
+        if (arx_flag)
+        {
+            break;
+        }
+
     }
+    arx_2(CAN_Handlej);
     return 0;
 }

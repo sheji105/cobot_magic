@@ -228,6 +228,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86_64)|(AMD64)|(^i686)")
         ${CMAKE_CURRENT_SOURCE_DIR}/src/App/libsolve.so 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/libcan/libcan.a 
         ${CMAKE_CURRENT_SOURCE_DIR}/src/App/libkey.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/App/libarx_s.so
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Hardware/libcana.so 
 
         kdl_parser

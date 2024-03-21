@@ -74,7 +74,7 @@ arx_arm::arx_arm(int CONTROL_MODE)
         model_path = ros::package::getPath("arm_control") + "/models/arx5h.urdf";
     }
     
-    if (play.modifyLinkMass(model_path, model_path, 0.62)) { //默认单位kg 夹爪质量 0.381 0.581
+    if (play.modifyLinkMass(model_path, model_path, 0.680)) { //默认单位kg 夹爪质量 0.381 0.581
         std::cout << "Successfully modified the mass of link6." << std::endl;
     } else {
         std::cout << "Failed to modify the mass of link6." << std::endl;

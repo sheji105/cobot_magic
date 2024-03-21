@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <thread>
 #include <atomic>
+#include "App/arx_s.h"
 #include "arm_control/JointControl.h"
 #include "arm_control/JointInformation.h"
 #include "arm_control/PosCmd.h"
@@ -45,7 +46,7 @@ int main(int argc, char **argv)
     //                                   ARX_ARM.record_mode = msg->mode;
     //                               });
 
-     ros::Subscriber sub_joint = node.subscribe<sensor_msgs::JointState>("/master/joint_left", 10, 
+    ros::Subscriber sub_joint = node.subscribe<sensor_msgs::JointState>("/master/joint_left", 10, 
                                 [&ARX_ARM](const sensor_msgs::JointState::ConstPtr& msg) 
                                 {
                                     ARX_ARM.ros_control_pos_t[0] = msg->position[0];
@@ -60,11 +61,10 @@ int main(int argc, char **argv)
     ros::Publisher pub_joint01 = node.advertise<sensor_msgs::JointState>("/puppet/joint_left", 10);
 
 
+
     ros::Publisher pub_current = node.advertise<arm_control::JointInformation>("joint_information2", 10);
     ros::Publisher pub_pos = node.advertise<arm_control::PosCmd>("/follow2_pos_back", 10);
     
-
-
     arx5_keyboard ARX_KEYBOARD;
 
     ros::Rate loop_rate(200);
@@ -123,8 +123,7 @@ int main(int argc, char **argv)
 
             pub_pos.publish(msg_pos_back);            
 
-
-        sensor_msgs::JointState msg_joint01;
+            sensor_msgs::JointState msg_joint01;
         msg_joint01.header.stamp = ros::Time::now();
         // msg_joint01.header.frame_id = "map";
         size_t num_joint = 7;
@@ -143,10 +142,17 @@ int main(int argc, char **argv)
         pub_joint01.publish(msg_joint01);
 
 
+
         ros::spinOnce();
         loop_rate.sleep();
         
+        if (arx_flag)
+        {
+            break;
+        }
+
     }
+    arx_2(CAN_Handlej);
 
     return 0;
 }
