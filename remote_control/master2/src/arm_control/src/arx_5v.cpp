@@ -35,19 +35,20 @@ int main(int argc, char **argv)
 
     ros::Publisher pub_joint01 = node.advertise<sensor_msgs::JointState>("/master/joint_left", 10);
 
-    ros::Subscriber sub_information = node.subscribe<arm_control::JointInformation>("/joint_information2", 10, 
-                                  [&ARX_ARM](const arm_control::JointInformation::ConstPtr& msg) {
-                                      ARX_ARM.ros_control_cur_t[0] = msg->joint_cur[0];
-                                      ARX_ARM.ros_control_cur_t[1] = msg->joint_cur[1];
-                                      ARX_ARM.ros_control_cur_t[2] = msg->joint_cur[2];
-                                      ARX_ARM.ros_control_cur_t[3] = msg->joint_cur[3];
-                                      ARX_ARM.ros_control_cur_t[4] = msg->joint_cur[4];
-                                      ARX_ARM.ros_control_cur_t[5] = msg->joint_cur[5];
-                                      ARX_ARM.ros_control_cur_t[6] = msg->joint_cur[6];
-                                      ARX_ARM.ros_control_pos_t[6] = msg->joint_pos[6];
-                                  });
-    ros::Publisher pub_joint = node.advertise<arm_control::JointControl>("/joint_control2", 10);
-    ros::Publisher pub_pos = node.advertise<arm_control::PosCmd>("/master2_pos_back", 10);
+    // ros::Subscriber sub_information = node.subscribe<arm_control::JointInformation>("/joint_information2", 10, 
+    //                               [&ARX_ARM](const arm_control::JointInformation::ConstPtr& msg) {
+    //                                   ARX_ARM.ros_control_cur_t[0] = msg->joint_cur[0];
+    //                                   ARX_ARM.ros_control_cur_t[1] = msg->joint_cur[1];
+    //                                   ARX_ARM.ros_control_cur_t[2] = msg->joint_cur[2];
+    //                                   ARX_ARM.ros_control_cur_t[3] = msg->joint_cur[3];
+    //                                   ARX_ARM.ros_control_cur_t[4] = msg->joint_cur[4];
+    //                                   ARX_ARM.ros_control_cur_t[5] = msg->joint_cur[5];
+    //                                   ARX_ARM.ros_control_cur_t[6] = msg->joint_cur[6];
+    //                                   ARX_ARM.ros_control_pos_t[6] = msg->joint_pos[6];
+    //                               });
+    
+    // ros::Publisher pub_joint = node.advertise<arm_control::JointControl>("/joint_control2", 10);
+    // ros::Publisher pub_pos = node.advertise<arm_control::PosCmd>("/master2_pos_back", 10);
     
     arx5_keyboard ARX_KEYBOARD;
 
@@ -72,34 +73,34 @@ int main(int argc, char **argv)
     
 //自定义话题
             //发布关节信息
-            arm_control::JointControl msg_joint;            
+            // arm_control::JointControl msg_joint;            
 
-            for(int i=0;i<6;i++)
-            {
-                msg_joint.joint_pos[i] = ARX_ARM.current_pos[i];
-                msg_joint.joint_vel[i] = ARX_ARM.current_vel[i];
-                msg_joint.joint_cur[i] = ARX_ARM.current_torque[i];
-            }  
+            // for(int i=0;i<6;i++)
+            // {
+            //     msg_joint.joint_pos[i] = ARX_ARM.current_pos[i];
+            //     msg_joint.joint_vel[i] = ARX_ARM.current_vel[i];
+            //     msg_joint.joint_cur[i] = ARX_ARM.current_torque[i];
+            // }  
 
-                msg_joint.joint_vel[6] = ARX_ARM.current_vel[6];
-                msg_joint.joint_cur[6] = ARX_ARM.current_torque[6];
-                //ARX_ARM.current_pos[6]=ARX_ARM.Data_process(ARX_ARM.current_pos[6]);
-                msg_joint.joint_pos[6]=ARX_ARM.current_pos[6]*12; // 映射放大
-                msg_joint.mode = ARX_ARM.arx5_cmd.key_t;
+            //     msg_joint.joint_vel[6] = ARX_ARM.current_vel[6];
+            //     msg_joint.joint_cur[6] = ARX_ARM.current_torque[6];
+            //     //ARX_ARM.current_pos[6]=ARX_ARM.Data_process(ARX_ARM.current_pos[6]);
+            //     msg_joint.joint_pos[6]=ARX_ARM.current_pos[6]*12; // 映射放大
+            //     msg_joint.mode = ARX_ARM.arx5_cmd.key_t;
             
-            pub_joint.publish(msg_joint);
+            // pub_joint.publish(msg_joint);
 
-            //发布末端位置
-            arm_control::PosCmd msg_pos_back;            
-            msg_pos_back.x      =ARX_ARM.solve.solve_pos[0];
-            msg_pos_back.y      =ARX_ARM.solve.solve_pos[1];
-            msg_pos_back.z      =ARX_ARM.solve.solve_pos[2];
-            msg_pos_back.roll   =ARX_ARM.solve.solve_pos[3];
-            msg_pos_back.pitch  =ARX_ARM.solve.solve_pos[4];
-            msg_pos_back.yaw    =ARX_ARM.solve.solve_pos[5];
-            msg_pos_back.gripper=ARX_ARM.current_pos[6];
+            // //发布末端位置
+            // arm_control::PosCmd msg_pos_back;            
+            // msg_pos_back.x      =ARX_ARM.solve.solve_pos[0];
+            // msg_pos_back.y      =ARX_ARM.solve.solve_pos[1];
+            // msg_pos_back.z      =ARX_ARM.solve.solve_pos[2];
+            // msg_pos_back.roll   =ARX_ARM.solve.solve_pos[3];
+            // msg_pos_back.pitch  =ARX_ARM.solve.solve_pos[4];
+            // msg_pos_back.yaw    =ARX_ARM.solve.solve_pos[5];
+            // msg_pos_back.gripper=ARX_ARM.current_pos[6];
 
-            pub_pos.publish(msg_pos_back);
+            // pub_pos.publish(msg_pos_back);
         
         // 发布姿态
             sensor_msgs::JointState msg_joint01;

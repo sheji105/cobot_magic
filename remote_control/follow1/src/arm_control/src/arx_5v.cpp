@@ -66,8 +66,8 @@ int main(int argc, char **argv)
     //                                   ARX_ARM.record_mode = msg->mode;
     //                               });
 
-    ros::Publisher pub_current = node.advertise<arm_control::JointInformation>("joint_information", 10);
-    ros::Publisher pub_pos = node.advertise<arm_control::PosCmd>("/follow1_pos_back", 10);
+    // ros::Publisher pub_current = node.advertise<arm_control::JointInformation>("joint_information", 10);
+    // ros::Publisher pub_pos = node.advertise<arm_control::PosCmd>("/follow1_pos_back", 10);
     
 
 
@@ -96,38 +96,38 @@ int main(int argc, char **argv)
         ARX_ARM.update_real(cmd);
 
 //发送关节数据
-            arm_control::JointInformation msg_joint;   
+//             arm_control::JointInformation msg_joint;   
 
-            for(int i=0;i<6;i++)
-            {
-                msg_joint.joint_pos[i] = ARX_ARM.current_pos[i];
-                msg_joint.joint_vel[i] = ARX_ARM.current_vel[i];
-                msg_joint.joint_cur[i] = ARX_ARM.current_torque[i];
-            }    
+//             for(int i=0;i<6;i++)
+//             {
+//                 msg_joint.joint_pos[i] = ARX_ARM.current_pos[i];
+//                 msg_joint.joint_vel[i] = ARX_ARM.current_vel[i];
+//                 msg_joint.joint_cur[i] = ARX_ARM.current_torque[i];
+//             }    
 
-            msg_joint.joint_pos[6]= ARX_ARM.current_pos[6]/12;
-            msg_joint.joint_vel[6]= ARX_ARM.current_vel[6];
-            if(ARX_ARM.current_vel[6]<2)
-            {
-                msg_joint.joint_cur[6]=-ARX_ARM.Data_process(ARX_ARM.current_torque[6]);  //0.3
-            }
-            else
-            {
-                msg_joint.joint_cur[6]=0;  //0.3
-            }
-            pub_current.publish(msg_joint);
+//             msg_joint.joint_pos[6]= ARX_ARM.current_pos[6]/12;
+//             msg_joint.joint_vel[6]= ARX_ARM.current_vel[6];
+//             if(ARX_ARM.current_vel[6]<2)
+//             {
+//                 msg_joint.joint_cur[6]=-ARX_ARM.Data_process(ARX_ARM.current_torque[6]);  //0.3
+//             }
+//             else
+//             {
+//                 msg_joint.joint_cur[6]=0;  //0.3
+//             }
+//             pub_current.publish(msg_joint);
 
-//发送末端姿态
-            arm_control::PosCmd msg_pos_back;            
-            msg_pos_back.x      =ARX_ARM.solve.solve_pos[0];
-            msg_pos_back.y      =ARX_ARM.solve.solve_pos[1];
-            msg_pos_back.z      =ARX_ARM.solve.solve_pos[2];
-            msg_pos_back.roll   =ARX_ARM.solve.solve_pos[3];
-            msg_pos_back.pitch  =ARX_ARM.solve.solve_pos[4];
-            msg_pos_back.yaw    =ARX_ARM.solve.solve_pos[5];
-            msg_pos_back.gripper=ARX_ARM.current_pos[6];
+// //发送末端姿态
+//             arm_control::PosCmd msg_pos_back;            
+//             msg_pos_back.x      =ARX_ARM.solve.solve_pos[0];
+//             msg_pos_back.y      =ARX_ARM.solve.solve_pos[1];
+//             msg_pos_back.z      =ARX_ARM.solve.solve_pos[2];
+//             msg_pos_back.roll   =ARX_ARM.solve.solve_pos[3];
+//             msg_pos_back.pitch  =ARX_ARM.solve.solve_pos[4];
+//             msg_pos_back.yaw    =ARX_ARM.solve.solve_pos[5];
+//             msg_pos_back.gripper=ARX_ARM.current_pos[6];
 
-            pub_pos.publish(msg_pos_back);            
+//             pub_pos.publish(msg_pos_back);            
 
             sensor_msgs::JointState msg_joint01;
         msg_joint01.header.stamp = ros::Time::now();

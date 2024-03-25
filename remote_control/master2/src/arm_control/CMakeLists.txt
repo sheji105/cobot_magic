@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(arm_control)
-
+add_definitions(-w)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
