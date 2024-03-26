@@ -17,8 +17,15 @@ fi
 
 echo "ls /dev/ttyACM*"
 echo
+
+ls /dev/ttyACM* 
+echo
+
 echo "udevadm info -a -n /dev/ttyACM* | grep serial"
 echo
+
 echo "sudo vim /etc/udev/rules.d/arx_can.rules"
+echo
 
 echo "sudo udevadm control --reload-rules && sudo udevadm trigger"
+echo
